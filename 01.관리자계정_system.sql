@@ -15,14 +15,14 @@ select * from DBA_USERS;
 -- create user user1 identified by 1234; 
 create user c##user6 identified by "1234";
 
--- 사용자 이름에 c## 붙이는것을 회피하는 방법
+-- 사용자 이름에 c## 붙이는것을 회피하는 방법 (껏다킬때마다 해줘야함)
 alter session set "_oracle_script" = true;
 
 create user user7 identified by "1234";
 
 --사용자 이름은 대소문자 가리지 않는다
 
---꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 
+--꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 
 --실제 사용할 계정 생성
 create user aie identified by aie;
 
@@ -32,7 +32,7 @@ grant resource, connect to aie;
 
 --테이블스페이스에 얼마만큼의 영역을 할당할 것인지를 부여
 alter user aie default tablespace users quota unlimited on users;
---꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 
+--꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 꼭 해줘야함 
 
 
 --테이블스페이스의 영역을 특정 용량만큼 할당하려면
@@ -45,6 +45,25 @@ alter user user2 quota 30M on users;  --잘 사용하지 않음
 --     테이블이 있다면 drop user 사용자명 cascade;  => 테이블까지 삭제
 drop user user7;
 drop user c##user6;
+
+
+
+
+
+
+
+alter session set "_oracle_script" = true;
+create user workbook identified by workbook;
+grant resource, connect to workbook;
+alter user workbook default tablespace users quota unlimited on users;
+
+
+
+
+
+
+
+
 
 
 
