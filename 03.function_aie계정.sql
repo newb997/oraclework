@@ -378,7 +378,7 @@ SELECT TO_CHAR(1234, 'L99999') 자리 FROM DUAL; --L(LOCAL)현재 설정된 나�
 
 SELECT TO_CHAR(123123114, 'L999,999,999') 자리 FROM DUAL;
 
---사번, 이름, 급여(\11,111,111), 연봉(\123,234,234)조회
+--사번, 이름, 급여(\11,111,111), 연봉(\123,234,234)조회  --시험에도 자주 나옴
 SELECT EMP_ID, EMP_NAME, TO_CHAR(SALARY, 'L999,999,999') 급여, TO_CHAR(SALARY*12, 'L999,999,999,999') 연봉
 FROM EMPLOYEE;
 
@@ -560,28 +560,127 @@ FROM EMPLOYEE;
 SELECT EMP_NAME, JOB_CODE, SALARY 급여, DECODE(JOB_CODE, 'J7', (SALARY*0.1)+SALARY, 'J6', (SALARY*0.15)+SALARY, 'J5', (SALARY*0.2)+SALARY, (SALARY*0.05)+SALARY) 이상된급여
 FROM EMPLOYEE;
 --  'J7', SALARY*1.1 'J6', SALARY*1.15, 'J5', SALARY*1.2, SALARY*1.05 이렇게 해도됨
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+    CASE WHEN THEN
+    END
+    
+    CASE WHEN 조건식1 THEN 결과값1
+              WHEN 조건식2 THEN 결과값2
+              WHEN 조건식3 THEN 결과값3
+              .....
+              ELSE 결과값N
+    END(별칭 달거면 AS '별칭')
+*/
+--사원명, 급여, 급여가 500만원 이상이면 '고급', 350만원 이상이면 '중급', 나머지는 '초급'
+SELECT EMP_NAME, SALARY, 
+               CASE WHEN SALARY >= 5000000 THEN '고급'
+                          WHEN SALARY >= 3500000 THEN '중급'
+                          ELSE '초급'
+               END AS 급수
+FROM EMPLOYEE;
 
 
+--===============================================================================================
+--                                                                <그룹 함수>
+--                                      그룹함수는 단일행함수와 같이 사용할 수 없다.
+--===============================================================================================
+
+/*
+    SUM(숫자타입의 컬럼) : 해당컬럼값들의 합계를 구해서 반환
+*/
+--전 사원의 총 급여액 조회
+SELECT SUM(SALARY) "총 급여액"
+FROM EMPLOYEE;
+--전 사원의 총 급여액 조회 (다른방법도 있음)
+SELECT TO_CHAR(SUM(SALARY), 'L999,999,999') "총 급여액"
+FROM EMPLOYEE;
+
+--남자 사원의 총 급여액 조회
+SELECT SUM(SALARY)"남자 사원의 총 급여액"
+FROM EMPLOYEE
+WHERE SUBSTR(EMP_NO,8,1) IN('1','3');
 
 
+--부서코드 'D5'인 사원의 총 급여액 조회
+SELECT SUM(SALARY) "D5사원 총 급여액"
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5';
+
+--부서코드 'D5'인 사원의 연봉 총 합계 조회
+SELECT SUM(SALARY*NVL(BONUS,0)+SALARY) "D5사원 총 연봉액"
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5';
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+    AVG(숫자타입컬럼) : 해당 컬럼 값들의 평균을 반환
+*/
+--전 사원의 평균 급여액 조회
+SELECT AVG(SALARY) "평균 급여액"
+FROM EMPLOYEE;
+
+--소수점 삭제
+SELECT ROUND(AVG(SALARY)) "평균 급여액"
+FROM EMPLOYEE;
+
+SELECT ROUND(AVG(SALARY),-1) "평균 급여액"
+FROM EMPLOYEE;
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+    MIN(모든타입컬럼) : 해당 컬럼값 들 중에 가장 작은 값 반환
+    MAX(모든타입컬럼) : 해당 컬럼값 들 중에 가장 큰 값 반환
+*/
+
+--급여중 가장 적게 받는 값
+--그룹함수는 단일행함수와 같이 사용할 수 없다.  EMP_NAME에도 MIN 써줘야함
+SELECT MIN(EMP_NAME), MIN(SALARY) "최소 급여액"
+FROM EMPLOYEE;
 
 
+SELECT  MIN(EMP_NAME),  TO_CHAR(MIN(SALARY), 'L999,999,999') "최소 급여액",  MIN(HIRE_DATE)
+FROM EMPLOYEE;
 
+--이름중 큰값(사전순), 급여중 가장 많이받는 값, 입사일중 가장 나중에 입사한 날짜
+SELECT  MAX(EMP_NAME),  TO_CHAR(MAX(SALARY), 'L999,999,999') "최고 급여액", MAX(HIRE_DATE)
+FROM EMPLOYEE;
+----------------------------------------------------------------------------------------------------------------------------------------------
 
+/*
+    COUNT(*|컬럼|DISTINCT 컬럼) : 행의 개수 반환
+    
+    COUNT(*) : 조회된 결과의 모든 행의 개수 반환
+    COUNT(컬럼) : 제시한 컬럼의 NULL값을 제외한 행의 개수 반환
+    COUNT(DISTINCT 컬럼) : 해당 컬럼값 중복을 제거한 후의 행의 개수 반환
+*/
 
+--전체 사원 수 조회
+SELECT COUNT(*)
+FROM EMPLOYEE;
 
+--여자 사원 수 조회
+SELECT COUNT(*)
+FROM EMPLOYEE
+WHERE SUBSTR(EMP_NO, 8,1) IN('2', '4');
 
+--남자 사원 수 조회
+SELECT COUNT(*)
+FROM EMPLOYEE
+WHERE SUBSTR(EMP_NO, 8,1) IN('1', '3');
 
+--보너스를 받는 사원 수 조회
+SELECT COUNT(BONUS)
+FROM EMPLOYEE;
 
+--부서배치를 받은 사원 수
+SELECT COUNT(DEPT_CODE)
+FROM EMPLOYEE;
 
-
-
-
-
-
-
-
-
+--현재 사원들의 총 몇개의 부서에 배치되었는지
+SELECT COUNT(DISTINCT DEPT_CODE)
+FROM EMPLOYEE;
 
 
 

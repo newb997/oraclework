@@ -1,0 +1,29 @@
+--WORKBOOK FUNCTION 문제풀이
+
+--3 . 남자 교수들의 이름과 나이를 출력
+SELECT PROFESSOR_NAME,
+                EXTRACT(YEAR FROM SYSDATE)- (19 || SUBSTR(PROFESSOR_SSN,1,2)) 나이
+FROM TB_PROFESSOR
+WHERE SUBSTR(PROFESSOR_SSN,8,1) IN('1','3')
+ORDER BY 나이;
+--EXTRACT(YEAR FROM TO_DATE(SUBSTR(PROFESSOR_SSN,1,6))
+
+
+--13. 학과 별 휴학생 수를 파악하고자 한다. 학과 번호와 휴학생 수를 표시하는 SQL 문장을 작성하시오. 
+SELECT DEPARTMENT_NO 학과번호, COUNT( DECODE( ABSENCE_YN, 'Y',1 )) "휴학생 수"
+FROM TB_STUDENT
+GROUP BY DEPARTMENT_NO;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

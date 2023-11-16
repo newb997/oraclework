@@ -51,12 +51,18 @@ drop user c##user6;
 
 
 
-
+-- WORKBOOK 사용자 계정 만들기
 alter session set "_oracle_script" = true;
 create user workbook identified by workbook;
 grant resource, connect to workbook;
 alter user workbook default tablespace users quota unlimited on users;
 
+
+-- DDL 사용자 계정 만들기
+alter session set "_oracle_script" = true; --C## 없애주는거
+create user DDL identified by DDL; --대소문자 안가림
+grant resource, connect to DDL;
+alter user DDL default tablespace users quota unlimited on users;
 
 
 
