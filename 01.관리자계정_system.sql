@@ -66,9 +66,12 @@ alter user DDL default tablespace users quota unlimited on users;
 
 
 
-
-
-
+-- EXAM 사용자 계정 만들기
+alter session set "_oracle_script" = true;
+create user exam identified by exam;
+grant resource, connect to exam;
+alter user exam default tablespace users quota unlimited on users;
+GRANT CREATE VIEW TO EXAM; -- 뷰권한
 
 
 
