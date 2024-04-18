@@ -75,6 +75,37 @@ GRANT CREATE VIEW TO EXAM; -- 뷰권한
 
 
 
+-- JSP 사용자 계정 만들기
+ALTER SESSION set "_oracle_script" = true;
+create user jsp identified by jsp;
+grant RESOURCE, CONNECT to jsp;
+alter user jsp default TABLESPACE users quota UNLIMITED on users;
+
+
+
+-- mybatis 사용자 계정 만들기
+ALTER SESSION set "_oracle_script" = true;
+create user mybatis identified by mybatis;
+grant RESOURCE, CONNECT to mybatis;
+alter user mybatis default TABLESPACE users quota UNLIMITED on users;
+
+
+-- springboot 사용자 계정 만들기
+ALTER SESSION set "_oracle_script" = true;
+create user springboot identified by springboot;
+grant RESOURCE, CONNECT to springboot;
+alter user springboot default TABLESPACE users quota UNLIMITED on users;
+
+
+-- testplanner 사용자 계정 만들기
+ALTER SESSION set "_oracle_script" = true;
+create user testplanner identified by testplanner;
+grant RESOURCE, CONNECT to testplanner;
+alter user testplanner default TABLESPACE users quota UNLIMITED on users;
+
+
+
+
 
 
 
